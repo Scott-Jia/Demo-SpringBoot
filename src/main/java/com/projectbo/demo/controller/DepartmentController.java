@@ -40,4 +40,11 @@ public class DepartmentController {
                                        @RequestBody Department department) {
         return departmentService.updateDepartment(departmentId, department);
     }
+
+    @GetMapping("/departments/name/{name}")
+    public Department fetchDepartmentByName(@PathVariable("name") String deptName) {
+        return departmentService.fetchDepartmentByNameIgnoreCase(deptName);
+    }
+
+    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
 }
