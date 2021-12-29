@@ -3,9 +3,12 @@ package com.projectbo.demo.controller;
 import com.projectbo.demo.entity.Department;
 import com.projectbo.demo.service.DepartmentService;
 import com.projectbo.demo.service.DepartmentServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -14,18 +17,23 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
+
     @PostMapping("/departments")
-    public Department saveDepartment(@RequestBody Department department) {
+    public Department saveDepartment(@Valid @RequestBody Department department) {
+        LOGGER.info("logging inside saveDepartment");
         return departmentService.saveDepartment(department);
     }
 
     @GetMapping("/departments")
     public List<Department> fetchDepartmentList() {
+        LOGGER.info("logging inside fetchDepartmentList");
         return departmentService.fetchDepartmentList();
     }
 
     @GetMapping("/departments/{id}")
     public Department fetchDepartmentById(@PathVariable("id") Long departmentId) {
+        LOGGER.info("logging inside fetchDepartmentById");
         return departmentService.fetchDepartmentById(departmentId);
     }
 
@@ -46,5 +54,7 @@ public class DepartmentController {
         return departmentService.fetchDepartmentByNameIgnoreCase(deptName);
     }
 
+    
+    // JPA built-in query
     // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
 }
